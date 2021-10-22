@@ -23,18 +23,17 @@ Press Enter to continue""")
 
 if __name__ == "__main__":
     import unittest
+    from unittest import mock
+    user_inputs = ['a', 'z', '1', '', ' ', 'j', 'ረ', '☭', 1]
 
     class SimpleTest(unittest.TestCase):
         """Test greeting()."""
 
-        def setUp(self):
-            pass
-
-        def test_greeting(self):
+        @mock.patch('__main__.input')
+        def test_greeting(self, mocked):
             """Assert that greeting() returns nothing."""
-            self.assertIsNone(greeting())
-
-        def tearDown(self):
-            pass
+            for i in user_inputs:
+                mocked.return_value = i
+                self.assertIsNone(greeting())
 
     unittest.main()
