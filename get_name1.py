@@ -8,6 +8,8 @@ def get_name():
         What is your name: """)
         if name and not name.isspace():
             return name
+        print("""
+Name cannot be a space.""")
 
 
 if __name__ == '__main__':
