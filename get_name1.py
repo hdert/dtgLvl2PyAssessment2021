@@ -4,8 +4,8 @@
 def get_name():
     """Get the user's name for further use in the game."""
     while True:
-        name = input("""
-        What is your name: """)
+        name = str(input("""
+What is your name: """))
         if name and not name.isspace():
             return name
         print("""
@@ -36,7 +36,7 @@ if __name__ == '__main__':
             """Test that all valid names are returned."""
             for i in valid_user_inputs:
                 mocked.return_value = i
-                self.assertIs(get_name, i)
+                self.assertEqual(get_name(), str(i))
 
         @mock.patch('__main__.input')
         def test_invalid_inputs(self, mocked):
