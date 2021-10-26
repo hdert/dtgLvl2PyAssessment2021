@@ -38,6 +38,6 @@ if __name__ == '__main__':
 
         @mock.patch('__main__.input')
         def test_invalid_inputs(self, mocked):
-            """Test that all types of space are invalid inputs"""
+            """Test that all types of space are invalid inputs."""
             for i in invalid_user_inputs:
                 mocked.return_value = i
