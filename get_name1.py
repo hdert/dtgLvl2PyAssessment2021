@@ -15,6 +15,7 @@ Name cannot be a space.""")
 if __name__ == '__main__':
     import unittest
     from unittest import mock
+    from random import choice
     valid_user_inputs = [
         "John", "John Doe", 1, 9, 999, "1297498", "☭", "J", "Joe D'Angelo",
         "Wade McMcFace",
@@ -24,9 +25,6 @@ if __name__ == '__main__':
         '', ' ', '     ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
         '     '
     ]
-
-    def shadow_input(return_value):
-        """Return return value, whilst."""
 
     class SimpleTest(unittest.TestCase):
         """Test that all names are valid, apart from spaces."""
@@ -42,4 +40,8 @@ if __name__ == '__main__':
         def test_invalid_inputs(self, mocked):
             """Test that all types of space are invalid inputs."""
             for i in invalid_user_inputs:
-                mocked.return_value = i
+                valid_input = choice(valid_user_inputs)
+                mocked.side_effect = [i, valid_input]
+                self.assertEqual(get_name(), str(valid_input))
+
+    unittest.main()
