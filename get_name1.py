@@ -1,8 +1,14 @@
 """Get the user's name for further use in the game."""
 
 
-def get_name():
-    """Get the user's name for further use in the game."""
+def get_name() -> str:
+    """Get the user's name for further use in the game.
+
+    Args:
+        None
+    Returns:
+        str: The name the player has entered.
+    """
     while True:
         name = str(input("""
 What is your name: """))

@@ -1,8 +1,14 @@
 """Greet the user, explain the rules of the game, and how to play."""
 
 
-def greeting():
-    """Greet the user and explain the rules of the game."""
+def greeting() -> None:
+    """Greet the user and explain the rules of the game.
+
+    Args:
+        None
+    Returns:
+        None
+    """
     input("""
 Hello, and welcome to hangman. You have ten turns to guess the randomly
 selected word, letter by letter. If the letter you guess is in the word
