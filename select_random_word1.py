@@ -22,18 +22,22 @@ if __name__ == "__main__":
     import unittest
     from random import sample
 
-    list_of_words: List[str] = []
+    testing_list_of_words: List[str] = [
+        "hangman", "kanban", "evidence", "problem", "decomposed", "components",
+        "developed", "trialled", "assembled", "tested", "create", "final",
+        "working", "outcome"
+    ]
 
     class SimpleTest(unittest.TestCase):
         """Test that the word is in the list of words."""
 
         def check_word_in_list(self):
             word, _ = select_random_word()
-            self.assertIn(word, list_of_words)
+            self.assertIn(word, testing_list_of_words)
 
         def check_index_of_word(self):
             word, index_of_word = select_random_word()
-            self.assertEqual(word, list_of_words[index_of_word])
+            self.assertEqual(word, testing_list_of_words[index_of_word[-1]])
 
         def check_index_is_correct(self):
             false_indexes = sample(range(0, len(list_of_words)), 5)
@@ -49,4 +53,6 @@ if __name__ == "__main__":
                 if word is None:
                     break
                 words.append(word)
-            self.assertEqual(list_of_words.sort(), words.sort())
+            self.assertEqual(sorted(testing_list_of_words), sorted(words))
+
+    unittest.main()
