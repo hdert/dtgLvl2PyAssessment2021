@@ -1,5 +1,6 @@
 """Select a random word from a list and pass on a list of used words."""
 from typing import Tuple, Optional, List
+from random import randint, sample
 
 
 def select_random_word(
@@ -13,14 +14,29 @@ def select_random_word(
         Tuple[str, list]: The random word that is selected and a list
         of the index of every random word that has been selected.
     """
-    if used_words is None:
-        used_words = [0]
-    return "hangman", used_words
+    list_of_words: List[str] = [
+        "hangman", "kanban", "evidence", "problem", "decomposed", "components",
+        "developed", "trialled", "assembled", "tested", "create", "final",
+        "working", "outcome"
+    ]
+    list_of_words_without_used_words: List[str] = list_of_words.copy()
+    if used_words:
+        used_words.sort(reverse=True)
+        for i in used_words:
+            list_of_words_without_used_words.pop(i)
+    else:
+        used_words = []
+    if list_of_words_without_used_words:
+        random_number: int = randint(0,
+                                     len(list_of_words_without_used_words) - 1)
+        word = list_of_words_without_used_words[random_number]
+        used_words.append(list_of_words.index(word))
+        return word, used_words
+    return None, used_words
 
 
 if __name__ == "__main__":
     import unittest
-    from random import sample
 
     testing_list_of_words: List[str] = [
         "hangman", "kanban", "evidence", "problem", "decomposed", "components",
