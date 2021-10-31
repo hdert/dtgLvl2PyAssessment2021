@@ -8,10 +8,10 @@ def select_random_word(
     """Select a random word from a list and pass on a list of used words.
 
     Args:
-        used_words (list): [description].
+        used_words (list): A list of the indexes of every already used word.
 
     Returns:
-        Tuple[str, list]: The random word that is selected and a list
+        Tuple[Optional[str], list]: The random word that is selected and a list
         of the index of every random word that has been selected.
     """
     list_of_words: List[str] = [
@@ -20,12 +20,29 @@ def select_random_word(
         "working", "outcome"
     ]
     if len(used_words) == len(list_of_words):
+        # if len(used_words) == len(list_of_words), when line 26 and 27
+        # run, it will just delete every word from list_of_words, so we
+        # save the computational energy, and another if statement to check
+        # if list_of_words_without_used_words is empty, and just return
+        # None as the word, thus signalling to the caller, that the word
+        # list is empty.
         return None, used_words
     list_of_words_without_used_words: List[str] = list_of_words.copy()
     for i in sorted(used_words, reverse=True):
+        # used_words is looped through in reverse for this as, when in
+        # reverse, the 'popping' of an list item at index 'i' will
+        # never effect a higher index list item, as that higher index
+        # list item has already been popped.
         list_of_words_without_used_words.pop(i)
+    # len(list_of_words_without_used_words) - 1 because, lists start
+    # at index 0.
     random_number: int = randint(0, len(list_of_words_without_used_words) - 1)
     word = list_of_words_without_used_words[random_number]
+    # because random_number picks a word from a popped version of
+    # list_of_words, we can't directly translate the index of the word in
+    # list_of_words_without_used_words to the index of the word in
+    # list_of_words, therefore, we have to use the list.index()
+    # function to find the index of the word in the full list.
     used_words.append(list_of_words.index(word))
     return word, used_words
 
