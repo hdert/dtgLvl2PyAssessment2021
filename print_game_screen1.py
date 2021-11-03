@@ -28,7 +28,7 @@ if __name__ == '__main__':
             """Test the printing of every iteration of hangman."""
             calls = []
             used_words = []
-            for i in range(0, len(ascii_art.hangman)):
+            for i, _ in enumerate(ascii_art.hangman):
                 random_word, used_words = select_random_word(used_words)
                 random_chars = []
                 for _ in range(randint(1, 26)):
