@@ -10,13 +10,14 @@ def print_game_screen(hangman_state: int, word_progress: str,
 
 {word_progress}
 
-Incorrect guesses: {', '.join(sorted(wrong_guesses))}""")
+Wrong guesses: {', '.join(sorted(wrong_guesses)) if wrong_guesses
+else "None"}""")
 
 
 if __name__ == '__main__':
     import unittest
     from unittest.mock import patch, call
-    from select_random_word2 import select_random_word
+    from get_random_word2 import get_random_word
     from random import randint, choice
     from string import ascii_letters
 
@@ -29,7 +30,7 @@ if __name__ == '__main__':
             calls = []
             used_words = []
             for i, _ in enumerate(ascii_art.hangman):
-                random_word, used_words = select_random_word(used_words)
+                random_word, used_words = get_random_word(used_words)
                 random_chars = []
                 for _ in range(randint(1, 26)):
                     random_chars.append(choice(ascii_letters))
@@ -39,7 +40,7 @@ if __name__ == '__main__':
 
 {random_word}
 
-Incorrect guesses: {', '.join(sorted(random_chars))}"""))
+Wrong guesses: {', '.join(sorted(random_chars))}"""))
             self.assertEqual(mocked.mock_calls, calls)
 
     unittest.main()
