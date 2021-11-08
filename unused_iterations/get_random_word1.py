@@ -3,7 +3,7 @@ from typing import Tuple, Optional, List
 from random import randint, sample
 
 
-def select_random_word(
+def get_random_word(
         used_words: List[int] = None) -> Tuple[Optional[str], List[int]]:
     """Select a random word from a list and pass on a list of used words.
 
@@ -50,14 +50,14 @@ if __name__ == "__main__":
         def test_word_in_list(self):
             """Test that the word is in the list of words."""
             word: Optional[str]
-            word, _ = select_random_word()
+            word, _ = get_random_word()
             self.assertIn(word, testing_list_of_words)
 
         def test_index_of_word(self):
             """Test that the index of the word is correct."""
             word: Optional[str]
             index_of_word: List[int]
-            word, index_of_word = select_random_word()
+            word, index_of_word = get_random_word()
             self.assertEqual(word, testing_list_of_words[index_of_word[-1]])
 
         def test_index_is_correct(self):
@@ -65,7 +65,7 @@ if __name__ == "__main__":
             index_of_word: List[int]
             false_indexes: List[int]
             false_indexes = sample(range(0, len(testing_list_of_words)), 5)
-            _, index_of_word = select_random_word(false_indexes)
+            _, index_of_word = get_random_word(false_indexes)
             for i in false_indexes:
                 self.assertIn(i, index_of_word)
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
             words: List[str] = []
             while True:
                 word: str
-                word, used_words = select_random_word(used_words)
+                word, used_words = get_random_word(used_words)
                 if word is None:
                     break
                 words.append(word)
