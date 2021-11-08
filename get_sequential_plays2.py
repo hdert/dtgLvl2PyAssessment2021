@@ -4,8 +4,6 @@
 def get_sequential_plays() -> int:
     """Get the sequential number of times the player wants to play.
 
-    Args:
-        None
     Returns:
         An integer between and including 1 to 10.
     """

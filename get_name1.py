@@ -4,8 +4,6 @@
 def get_name() -> str:
     """Get the user's name for further use in the game.
 
-    Args:
-        None
     Returns:
         str: The name the player has entered.
     """
