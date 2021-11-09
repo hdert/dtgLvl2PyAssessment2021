@@ -366,9 +366,9 @@ def print_game_screen(word_progress: str, wrong_guesses: List[str]) -> None:
     """
     print(f"""{hangman_art(len(wrong_guesses))}
 
-{word_progress}
+{' '.join(word_progress.upper())}
 
-Wrong guesses: {', '.join(sorted(wrong_guesses)) if wrong_guesses
+Wrong guesses: {', '.join(sorted(wrong_guesses)).upper() if wrong_guesses
 else "None"}""")
 
 
