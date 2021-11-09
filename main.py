@@ -17,18 +17,29 @@ from thank_user_for_playing2 import thank_user_for_playing
 def main():
     """Tie together all of the components of the game."""
     greeting()
+    # The list of used_words is global so as to stop repeating words in a
+    # session.
     used_words: List[int] = []
+    # User_name is constant throughout the game.
     user_name: str = get_name()
+    # A flag to end the game incase the program runs out of words
     list_of_words_not_empty = True
+    # Score is global through every game as this is a total.
     score: int = 0
     while list_of_words_not_empty:
         sequential_turns: int = get_sequential_plays()
         while sequential_turns > 0:
+            # A new word is selected after every game, and the guesses
+            # are reset.
             wrong_guesses: List[str] = []
             secret_word, used_words = get_random_word(used_words)
+            # Check that we haven't run out of words.
             if secret_word is None:
                 list_of_words_not_empty = False
+                print("Sorry, but we seem to have run out of words.")
                 break
+            # Make the current word the length of the secret word in
+            # underscores.
             current_word = '_' * len(secret_word)
             while check_game_state(current_word, wrong_guesses):
                 print_game_screen(current_word, wrong_guesses)

@@ -9,6 +9,8 @@ def get_sequential_plays() -> int:
     """
     while True:
         try:
+            # take plays as a float to account for users inputing floats
+            # as casting to int() will just truncate an entered float.
             plays = float(
                 input("""
 How many times would you like to play [1-10]: """))
@@ -16,10 +18,12 @@ How many times would you like to play [1-10]: """))
             print("""
 You must enter a number, e.g. 1, 5, 8, 9.""")
             continue
+        # Test whether plays is a whole number.
         if plays % 1 != 0:
             print("""
 You must enter a whole number, e.g. 1, 5, 8, 9.""")
             continue
+        # and if plays is a whole number, safely cast to int()
         plays = int(plays)
         if 1 <= plays <= 10:
             return plays

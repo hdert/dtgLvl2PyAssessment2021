@@ -18,13 +18,19 @@ def check_letter_in_word(secret_word: str, user_guess: str, current_word: str,
     """
     index_of_letters: List[int] = []
 
+    # append index_of_letters with the positions of user_guess in secret_word
+    # this is because we're not replacing secret_word with user_guess, we're
+    # replacing the corresponding positions in current_word with user_guess.
     for i, _ in enumerate(secret_word):
         if secret_word[i] == user_guess:
             index_of_letters.append(i)
 
+    # Apparently, this is the only way to splice strings in python.
     for i in index_of_letters:
         current_word = current_word[0:i] + user_guess + current_word[i + 1:]
 
+    # if there isn't anything in index_of_letters, the user guess isn't in
+    # secret_word.
     if not index_of_letters:
         wrong_guesses.append(user_guess)
     return current_word, wrong_guesses

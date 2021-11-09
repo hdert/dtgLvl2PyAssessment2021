@@ -12,7 +12,11 @@ def check_game_state(current_word: str, wrong_guesses: List[str]) -> bool:
     Returns:
         bool: True if the game may continue, False if the game is over.
     """
-    if len(wrong_guesses) < 10 and '_' in current_word if current_word else '':
+    # You'll notice the statement current_word if current_word else ''
+    # Therefore, if not current_word, the if statement checks if '_' is
+    # in '', which will fail.
+    if (len(wrong_guesses) < 10) and ('_' in (current_word
+                                              if current_word else '')):
         return True
     return False
 
