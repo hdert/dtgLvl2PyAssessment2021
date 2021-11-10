@@ -248,14 +248,14 @@ def get_guess(current_word: str, wrong_guesses: List[str]) -> str:
         if not isinstance(user_input, str):
             print("Please enter a letter between a and z")
             continue
+        # Test if user input is alphabetical, and is ascii, in one go.
+        if user_input not in ascii_letters:
+            print("Please enter a letter between a and z")
+            continue
         # Comparing the length of user input helps condense the empty
         # and too many characters checks into one check.
         if len(user_input) != 1:
             print("Please enter one letter")
-            continue
-        # Test if user input is alphabetical, and is ascii, in one go.
-        if user_input not in ascii_letters:
-            print("Please enter a letter between a and z")
             continue
         # Test if the user has entered the guess before.
         if user_input in current_word or user_input in wrong_guesses:
@@ -351,7 +351,7 @@ You must enter a whole number, e.g. 1, 5, 8, 9.""")
         if 1 <= plays <= 10:
             return plays
         print("""
-The number must between from 0 and 11, e.g. 1, 5, 8, 9""")
+The number must be from 1 to 10, e.g. 1, 5, 8, 10""")
 
 
 def greeting() -> None:
@@ -387,6 +387,7 @@ def print_game_screen(word_progress: str, wrong_guesses: List[str]) -> None:
         word_progress (str): The progress of the word.
         wrong_guesses (List[str]): The wrong guesses of the user.
     """
+    # The ternary prints None if wrong_guesses is empty.
     print(f"""{hangman_art(len(wrong_guesses))}
 
 {' '.join(word_progress.upper())}
@@ -441,6 +442,7 @@ def main():
                 secret_word, wrong_guesses)
             game_summary(game_score, game_max_score, secret_word,
                          (len(wrong_guesses) < 10), wrong_guesses)
+            # add per game scores to the total scores.
             score += game_score
             max_score += game_max_score
             sequential_turns -= 1
