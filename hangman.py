@@ -121,7 +121,8 @@ def hangman_art(index) -> str:
     return hangman[index]
 
 
-def calculate_score(secret_word: str, wrong_guesses: List[str]) -> int:
+def calculate_score(secret_word: str,
+                    wrong_guesses: List[str]) -> Tuple[int, int]:
     """Calculate the user's final score.
 
     Args:
@@ -137,7 +138,8 @@ def calculate_score(secret_word: str, wrong_guesses: List[str]) -> int:
     # instead of rounding zero up to one, as that would give a player who made
     # one mistake, the same final score as a player who made zero mistakes.
     # We then multiply the result by 1000 to give an arcady feel.
-    return round((len(secret_word) / (len(wrong_guesses) + 1)) * 1000)
+    return round((len(secret_word) / (len(wrong_guesses) + 1)) *
+                 1000), len(secret_word) * 1000
 
 
 def check_game_state(current_word: str, wrong_guesses: List[str]) -> bool:
@@ -206,6 +208,27 @@ def check_user_wants_to_play_again() -> bool:
         if user_input.lower() == 'n':
             return False
         print("""Please enter either 'y' or 'n'.""")
+
+
+def game_summary(game_score: int, game_max_score: int, secret_word: str,
+                 user_won: bool, wrong_guesses: List[str]):
+    """Give a game summary to the user after the game.
+
+    Args:
+        game_score (int): The score of the game.
+        game_max_score (int): The maximum potential score for the game.
+        secret_word (str): The secret word.
+        user_won (bool): If the user won or not.
+    """
+    input(f"""{hangman_art(len(wrong_guesses))}
+
+You {"Won" if user_won else "Lost"}!
+
+The word was: {secret_word}
+
+Score: {game_score}/{game_max_score}
+
+Press enter to continue""")
 
 
 def get_guess(current_word: str, wrong_guesses: List[str]) -> str:
@@ -372,11 +395,11 @@ Wrong guesses: {', '.join(sorted(wrong_guesses)).upper() if wrong_guesses
 else "None"}""")
 
 
-def thank_user_for_playing(score, user_name):
+def thank_user_for_playing(score: int, max_score: int, user_name: str):
     """Thank the user for playing and display the final score."""
     print(f"""
 Thank you for playing hangman {user_name}!
-Your final score is: {score}""")
+Your final score is: {score}/{max_score}""")
 
 
 def main():
@@ -391,6 +414,7 @@ def main():
     list_of_words_not_empty = True
     # Score is global through every game as this is a total.
     score: int = 0
+    max_score: int = 0
     while list_of_words_not_empty:
         sequential_turns: int = get_sequential_plays()
         while sequential_turns > 0:
@@ -413,12 +437,17 @@ def main():
                  wrong_guesses) = check_letter_in_word(secret_word, user_guess,
                                                        current_word,
                                                        wrong_guesses)
-            score += calculate_score(secret_word, wrong_guesses)
+            game_score, game_max_score = calculate_score(
+                secret_word, wrong_guesses)
+            game_summary(game_score, game_max_score, secret_word,
+                         (len(wrong_guesses) < 10), wrong_guesses)
+            score += game_score
+            max_score += game_max_score
             sequential_turns -= 1
         if list_of_words_not_empty:
             if not check_user_wants_to_play_again():
                 break
-    thank_user_for_playing(score, user_name)
+    thank_user_for_playing(score, max_score, user_name)
 
 
 if __name__ == '__main__':
