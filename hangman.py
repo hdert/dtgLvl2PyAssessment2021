@@ -132,7 +132,6 @@ def calculate_score(secret_word: str,
     Returns:
         int: The score for the game.
     """
-    SCORE_MULTIPLIER: int = 1000
     # We need to round the final value, as we use division and want to return
     # an integer. We add to the length of wrong_guesses, as if the user has
     # no wrong guesses, we get a divide by zero error. This approach was chosen
@@ -140,7 +139,7 @@ def calculate_score(secret_word: str,
     # one mistake, the same final score as a player who made zero mistakes.
     # We then multiply the result by 1000 to give an arcady feel.
     return round((len(secret_word) / (len(wrong_guesses) + 1)) *
-                 SCORE_MULTIPLIER), len(secret_word) * SCORE_MULTIPLIER
+                 1000), len(secret_word) * 1000
 
 
 def check_game_state(current_word: str, wrong_guesses: List[str]) -> bool:
@@ -153,12 +152,11 @@ def check_game_state(current_word: str, wrong_guesses: List[str]) -> bool:
     Returns:
         bool: True if the game may continue, False if the game is over.
     """
-    USER_TURNS: int = 10
     # You'll notice the statement current_word if current_word else ''
     # Therefore, if not current_word, the if statement checks if '_' is
     # in '', which will fail.
-    if (len(wrong_guesses) < USER_TURNS) and ('_' in (current_word if
-                                                      current_word else '')):
+    if (len(wrong_guesses) < 10) and ('_' in (current_word
+                                              if current_word else '')):
         return True
     return False
 
@@ -182,9 +180,7 @@ def check_letter_in_word(secret_word: str, user_guess: str, current_word: str,
     # append index_of_letters with the positions of user_guess in secret_word
     # this is because we're not replacing secret_word with user_guess, we're
     # replacing the corresponding positions in current_word with user_guess.
-    for i, _ in enumerate(
-            secret_word
-    ):  # Better version of 'for i in range(len(secret_word))"'
+    for i, _ in enumerate(secret_word):
         if secret_word[i] == user_guess:
             index_of_letters.append(i)
 
@@ -334,8 +330,6 @@ def get_sequential_plays() -> int:
     Returns:
         An integer between and including 1 to 10.
     """
-    MINIMUM_TURNS: int = 1
-    MAXIMUM_TURNS: int = 10
     while True:
         try:
             # take plays as a float to account for users inputing floats
@@ -354,7 +348,7 @@ You must enter a whole number, e.g. 1, 5, 8, 9.""")
             continue
         # and if plays is a whole number, safely cast to int()
         plays = int(plays)
-        if MINIMUM_TURNS <= plays <= MAXIMUM_TURNS:
+        if 1 <= plays <= 10:
             return plays
         print("""
 The number must be from 1 to 10, e.g. 1, 5, 8, 10""")
